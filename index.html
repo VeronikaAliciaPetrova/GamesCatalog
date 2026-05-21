@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Каталог игр</title>
   <style>
     :root {
@@ -13,7 +13,6 @@
       --text: #e5e7eb;
       --accent: #38bdf8;
       --accent-2: #a78bfa;
-      --shadow: 0 24px 80px rgba(0, 0, 0, 0.45);
       --font-main: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
     }
 
@@ -28,12 +27,12 @@
       font-family: var(--font-main);
       color: var(--text);
       background: linear-gradient(135deg, var(--bg1), var(--bg2));
+      padding: 24px;
     }
 
     .catalog {
       max-width: 1000px;
-      margin: 24px auto;
-      padding: 0 16px;
+      margin: 0 auto;
     }
 
     .catalog-title {
@@ -42,47 +41,50 @@
       font-size: 28px;
     }
 
-    .catalog-buttons {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 16px;
-      flex-wrap: wrap;
+    .games-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
     }
 
-    .catalog-btn {
-      padding: 8px 16px;
+    .game-card {
+      padding: 20px 16px;
       border: 1px solid var(--card-border);
+      border-radius: 16px;
       background: var(--card);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+      text-align: left;
       color: #fff;
+    }
+
+    .game-card h2 {
+      margin: 0 0 8px;
+      font-size: 18px;
+    }
+
+    .game-card p {
+      margin: 0 0 12px;
+      color: #94a3b8;
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    .game-link {
+      display: block;
+      padding: 8px 14px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
       border-radius: 10px;
-      cursor: pointer;
+      text-align: center;
+      color: #fff;
+      text-decoration: none;
       font-size: 14px;
       transition: transform 0.12s ease, filter 0.12s ease;
     }
 
-    .catalog-btn:hover {
-      filter: brightness(1.06);
+    .game-link:hover {
+      filter: brightness(1.05);
       transform: translateY(-1px);
-    }
-
-    .catalog-btn.active {
-      border-color: #38bdf8;
-      box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.3);
-    }
-
-    .game-container {
-      width: 100%;
-      height: 600px;
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 12px;
-      overflow: hidden;
-      background: rgba(2, 6, 23, 0.8);
-    }
-
-    iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
     }
   </style>
 </head>
@@ -90,49 +92,39 @@
   <div class="catalog">
     <h1 class="catalog-title">Каталог игр</h1>
 
-    <div class="catalog-buttons">
-      <button class="catalog-btn" onclick="setGame('breakout')">Breakout</button>
-      <button class="catalog-btn" onclick="setGame('snake')">Змейка</button>
-      <button class="catalog-btn" onclick="setGame('tictactoe')">Крестики‑нолики</button>
-      <button class="catalog-btn" onclick="setGame('tetris')">Тетрис</button>
-    </div>
+    <div class="games-grid">
+      <div class="game-card">
+        <h2>Breakout</h2>
+        <p>Arcanoid‑стайл с блоками и мячом</p>
+        <a class="game-link" href="https://veronikaaliciapetrova.github.io/Breakout/">
+          Играть в Breakout
+        </a>
+      </div>
 
-    <div class="game-container">
-      <iframe id="gameFrame" src=""></iframe>
+      <div class="game-card">
+        <h2>Змейка</h2>
+        <p>Классическая змейка на поле 20×20</p>
+        <a class="game-link" href="https://veronikaaliciapetrova.github.io/Snake/">
+          Играть в Змейку
+        </a>
+      </div>
+
+      <div class="game-card">
+        <h2>Крестики‑нолики</h2>
+        <p>Одиночная игра на 3×3 поле</p>
+        <a class="game-link" href="https://veronikaaliciapetrova.github.io/Tic-Tac-Toe/">
+          Играть в Крестики‑нолики
+        </a>
+      </div>
+
+      <div class="game-card">
+        <h2>Тетрис</h2>
+        <p>Классический тетрис с фигурами</p>
+        <a class="game-link" href="https://veronikaaliciapetrova.github.io/Tetris/">
+          Играть в Тетрис
+        </a>
+      </div>
     </div>
   </div>
-
-  <script>
-    const urls = {
-      breakout: 'https://veronikaalicapetrova.github.io/Breakout/',
-      snake: 'https://veronikaalicapetrova.github.io/Snake/',
-      tictactoe: 'https://veronikaalicapetrova.github.io/Tic-Tac-Toe/',
-      tetris: 'https://veronikaalicapetrova.github.io/Tetris/'
-    };
-
-    let currentActiveBtn = null;
-
-    function setGame(game) {
-      const frame = document.getElementById('gameFrame');
-      const url = urls[game];
-      if (!url) return;
-
-      frame.src = url;
-
-      if (currentActiveBtn) {
-        currentActiveBtn.classList.remove('active');
-      }
-      const btn = event.target;
-      btn.classList.add('active');
-      currentActiveBtn = btn;
-    }
-
-    window.addEventListener('DOMContentLoaded', () => {
-      const firstBtn = document.querySelector('.catalog-btn');
-      firstBtn.classList.add('active');
-      currentActiveBtn = firstBtn;
-      setGame('breakout');
-    });
-  </script>
 </body>
 </html>
