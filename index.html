@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Каталог игр</title>
+  <style>
+    :root {
+      --bg1: #0f172a;
+      --bg2: #111827;
+      --card: rgba(15, 23, 42, 0.72);
+      --card-border: rgba(255, 255, 255, 0.12);
+      --text: #e5e7eb;
+      --accent: #38bdf8;
+      --accent-2: #a78bfa;
+      --shadow: 0 24px 80px rgba(0, 0, 0, 0.45);
+      --font-main: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: var(--font-main);
+      color: var(--text);
+      background: linear-gradient(135deg, var(--bg1), var(--bg2));
+    }
+
+    .catalog {
+      max-width: 1000px;
+      margin: 24px auto;
+      padding: 0 16px;
+    }
+
+    .catalog-title {
+      text-align: center;
+      margin: 0 0 24px;
+      font-size: 28px;
+    }
+
+    .catalog-buttons {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+
+    .catalog-btn {
+      padding: 8px 16px;
+      border: 1px solid var(--card-border);
+      background: var(--card);
+      color: #fff;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: transform 0.12s ease, filter 0.12s ease;
+    }
+
+    .catalog-btn:hover {
+      filter: brightness(1.06);
+      transform: translateY(-1px);
+    }
+
+    .catalog-btn.active {
+      border-color: #38bdf8;
+      box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.3);
+    }
+
+    .game-container {
+      width: 100%;
+      height: 600px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 12px;
+      overflow: hidden;
+      background: rgba(2, 6, 23, 0.8);
+    }
+
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="catalog">
+    <h1 class="catalog-title">Каталог игр</h1>
+
+    <div class="catalog-buttons">
+      <button class="catalog-btn" onclick="setGame('breakout')">Breakout</button>
+      <button class="catalog-btn" onclick="setGame('snake')">Змейка</button>
+      <button class="catalog-btn" onclick="setGame('tictactoe')">Крестики‑нолики</button>
+      <button class="catalog-btn" onclick="setGame('tetris')">Тетрис</button>
+    </div>
+
+    <div class="game-container">
+      <iframe id="gameFrame" src=""></iframe>
+    </div>
+  </div>
+
+  <script>
+    const urls = {
+      breakout: 'https://veronikaalicapetrova.github.io/Breakout/',
+      snake: 'https://veronikaalicapetrova.github.io/Snake/',
+      tictactoe: 'https://veronikaalicapetrova.github.io/Tic-Tac-Toe/',
+      tetris: 'https://veronikaalicapetrova.github.io/Tetris/'
+    };
+
+    let currentActiveBtn = null;
+
+    function setGame(game) {
+      const frame = document.getElementById('gameFrame');
+      const url = urls[game];
+      if (!url) return;
+
+      frame.src = url;
+
+      if (currentActiveBtn) {
+        currentActiveBtn.classList.remove('active');
+      }
+      const btn = event.target;
+      btn.classList.add('active');
+      currentActiveBtn = btn;
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const firstBtn = document.querySelector('.catalog-btn');
+      firstBtn.classList.add('active');
+      currentActiveBtn = firstBtn;
+      setGame('breakout');
+    });
+  </script>
+</body>
+</html>
